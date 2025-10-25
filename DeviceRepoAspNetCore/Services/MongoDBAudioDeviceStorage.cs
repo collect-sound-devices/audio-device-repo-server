@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using MongoDB.Bson;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using DeviceRepoAspNetCore.Models.RestApi;
 using DeviceRepoAspNetCore.Settings;
 using DeviceRepoAspNetCore.Models.MongoDb;
