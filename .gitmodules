@@ -1,4 +1,0 @@
-[submodule "msbuildLib"]
-	path = msbuildLib
-	url = https://github.com/reg-dra/msbuildLib.git
-	branch = main
