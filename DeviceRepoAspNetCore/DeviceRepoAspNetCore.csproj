@@ -37,7 +37,7 @@ See output below in target RestoreClientSideLibraries.
 
     <Target Name="RestoreClientSideLibraries" BeforeTargets="Build">
         <Exec Command="libman restore" />
-        <message Importance="high" text="Environment: CODESPACES=>'$(CODESPACES)', GITHUB_ACTIONS=>'$(GITHUB_ACTIONS)', WEBSITE_SITE_NAME=>'$(WEBSITE_SITE_NAME)', RUNNER_OS=>'$(RUNNER_OS)'." />
+        <Message Importance="high" text="Environment: CODESPACES=>'$(CODESPACES)', GITHUB_ACTIONS=>'$(GITHUB_ACTIONS)', WEBSITE_SITE_NAME=>'$(WEBSITE_SITE_NAME)', RUNNER_OS=>'$(RUNNER_OS)'." />
 
     </Target>
 

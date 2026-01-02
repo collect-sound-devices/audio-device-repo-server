@@ -21,6 +21,7 @@ public class CryptService(ILogger<CryptService> logger)
 
         return Convert.ToHexString(hashBytes).PadLeft(8, '0').ToLower();
     }
+    // ReSharper disable once UnusedMember.Global
     public string Encrypt(string plainText, string passphrase)
     {
         if (string.IsNullOrEmpty(plainText))
@@ -64,7 +65,10 @@ public class CryptService(ILogger<CryptService> logger)
         return originalText;
     }
 
-    public string Decrypt(string cipherText, string passphrase)
+#pragma warning disable CA1822 // can be static
+    // ReSharper disable once MemberCanBeMadeStatic.Local
+    private string Decrypt(string cipherText, string passphrase)
+#pragma warning restore CA1822
     {
         if (string.IsNullOrEmpty(cipherText))
             throw new ArgumentNullException(nameof(cipherText));
@@ -98,7 +102,7 @@ public class CryptService(ILogger<CryptService> logger)
     private static byte[] GetAesKeyFromPassphrase(string passphrase)
     {
         // Using a fixed salt for simplicity. In production, use a unique salt per secret.
-        var salt = Encoding.UTF8.GetBytes("FixedSaltValue");
+        var salt = "FixedSaltValue"u8.ToArray();
         const int iterations = 10000; // PBKDF2 iterations
 
         using var rfc2898 = new Rfc2898DeriveBytes(passphrase, salt, iterations, HashAlgorithmName.SHA256);
