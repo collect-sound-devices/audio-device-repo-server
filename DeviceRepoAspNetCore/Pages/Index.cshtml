@@ -1,17 +1,21 @@
 ﻿@page
 @model IndexModel
 @{
-	ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home Page";
+    var baseUrl = Url.Content("~");
+    var audioDevicesUrl = baseUrl + "/api/AudioDevices";
+    var versionUrl = baseUrl + "/api/Info/Version";
 }
 
 <h3>Audio Device Repository Server</h3>
 <p>
 	Version of the current release: @Model.Version<br/>
 	Timestamp: @Model.Timestamp<br/>
-	Runtime: @Model.Runtime
+	Runtime: @Model.Runtime<br/>
+    Server URL: @Request.Scheme://@Request.Host@baseUrl
 </p>
 <p>
 	REST Api Output Examples:<br/>
-	1. <a href="@Url.Content("~/api/AudioDevices")">Get Audio Device List</a>.<br/>
-	2. <a href="@Url.Content("~/api/Info/Version")">Get Server Version</a>.
+	1. <a href="@audioDevicesUrl">Audio Device List</a> (@Request.Scheme://@Request.Host@audioDevicesUrl).<br/>
+    2. <a href="@versionUrl">Server Version</a> (@Request.Scheme://@Request.Host@versionUrl).<br/>
 </p>
