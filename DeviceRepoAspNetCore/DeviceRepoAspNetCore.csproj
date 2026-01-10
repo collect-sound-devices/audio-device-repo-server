@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableNETAnalyzers>True</EnableNETAnalyzers>
+        <UseAppHost>false</UseAppHost>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(CODESPACES)' == 'true' or '$(GITHUB_ACTIONS)' == 'true' or '$(WEBSITE_SITE_NAME)' != '' ">
