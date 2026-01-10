@@ -1,7 +1,7 @@
 ﻿Audio Device Repository Server - Release Notes 
 =====================================
 ~~~
-Copyright 2025 by Eduard Danziger
+Copyright 2025-2026 by Eduard Danziger
 ~~~
 
 $version$
@@ -11,7 +11,16 @@ Released on $date$
 ~~~
 
 ## Changes
-- Deployment to Azure App Service
+- The git repository moved to collect-sound-devices organization (group)
+
+1.2.8
+--------
+~~~
+Released on 02.01.2026 10:31:34+0100
+~~~
+
+## Changes
+- The updated root Razor Pages shows the version, build date, operating system and useful links.
 
 1.2.6
 --------
