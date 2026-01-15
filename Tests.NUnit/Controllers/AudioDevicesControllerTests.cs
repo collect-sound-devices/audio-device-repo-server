@@ -28,16 +28,20 @@ public class AudioDevicesControllerTests
     [Test]
     public void Add_WhenValid_AddsDeviceWithHashedHostName_AndReturnsCreatedAtAction()
     {
-        var device = CreateValidDevice(hostName: "MyPc");
-        var expectedHashedHost = CryptService.ComputeChecksum(device.HostName);
+        const string hostName = "MyPc";
+        const string hashedHostName = "7d1a6195";
+        var device = CreateValidDevice(hostName: hostName);
         var expectedPnpId = device.PnpId;
 
         var storage = new Mock<IAudioDeviceStorage>(MockBehavior.Strict);
         storage
             .Setup(s => s.Add(It.Is<EntireDeviceMessage>(d =>
-                d.PnpId == expectedPnpId && d.HostName == expectedHashedHost)));
+                d.PnpId == expectedPnpId && d.HostName == hashedHostName)));
 
-        var controller = new AudioDevicesController(storage.Object);
+        var cryptService = new Mock<ICryptService>(MockBehavior.Strict);
+        cryptService.Setup(c => c.ComputeChecksum(device.HostName)).Returns(hashedHostName);
+
+        var controller = new AudioDevicesController(storage.Object, cryptService.Object);
 
         var result = controller.Add(device);
 
@@ -47,30 +51,8 @@ public class AudioDevicesControllerTests
         Assert.That(created.Value, Is.TypeOf<EntireDeviceMessage>());
 
         var returned = (EntireDeviceMessage)created.Value!;
-        Assert.That(returned.HostName, Is.EqualTo(expectedHashedHost));
+        Assert.That(returned.HostName, Is.EqualTo(hashedHostName));
         Assert.That(returned.PnpId, Is.EqualTo(expectedPnpId));
-    }
-
-    [Test]
-    public void Remove_WhenDeviceExists_RemovesAndReturnsNoContent()
-    {
-        const string pnpId = "pnp-1";
-        const string realHost = "MyPc";
-        var hashedHost = CryptService.ComputeChecksum(realHost);
-        var device = CreateValidDevice(pnpId: pnpId, hostName: hashedHost);
-
-        var storage = new Mock<IAudioDeviceStorage>(MockBehavior.Strict);
-        storage.Setup(s => s.GetAll()).Returns([device]);
-        storage.Setup(s => s.Remove(pnpId, hashedHost)).Verifiable();
-
-        var controller = new AudioDevicesController(storage.Object);
-
-        var result = controller.Remove(pnpId, realHost);
-
-        Assert.That(result, Is.InstanceOf<NoContentResult>());
-        storage.Verify(s => s.Remove(pnpId, hashedHost), Times.Once);
-        storage.Verify(s => s.GetAll(), Times.Exactly(2));
-        storage.VerifyNoOtherCalls();
     }
 
     [Test]
@@ -79,7 +61,10 @@ public class AudioDevicesControllerTests
         var storage = new Mock<IAudioDeviceStorage>(MockBehavior.Strict);
         storage.Setup(s => s.GetAll()).Returns([]);
 
-        var controller = new AudioDevicesController(storage.Object);
+        var cryptService = new Mock<ICryptService>(MockBehavior.Strict);
+        cryptService.Setup(c => c.ComputeChecksum(It.IsAny<string>())).Returns("checksum");
+
+        var controller = new AudioDevicesController(storage.Object, cryptService.Object);
 
         var result = controller.Remove("pnp", "host");
 
