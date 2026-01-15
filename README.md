@@ -8,7 +8,7 @@
 
 - Client Apps start the Audio Device Repository Server on-demand, if it doesn't run already.
 
-- The main GUI client's repository is [list-audio-react-app](https://github.com/eduarddanziger/list-audio-react-app/)
+- The main GUI client's repository is [list-audio-react-app](https://github.com/collect-sound-devices/list-audio-react-app/)
 
 ## Development environment
 
