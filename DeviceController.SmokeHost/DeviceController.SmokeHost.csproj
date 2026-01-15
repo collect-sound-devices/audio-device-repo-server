@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DeviceRepoAspNetCore\DeviceRepoAspNetCore.csproj" />
+    <ProjectReference Include="..\DeviceControllerLib\DeviceControllerLib.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,7 +4,6 @@ using System.IO.Hashing;
 
 namespace DeviceRepoAspNetCore.Services;
 
-
 public class CryptService(ILogger<CryptService> logger) : ICryptService
 {
     public string ComputeChecksum(string str)

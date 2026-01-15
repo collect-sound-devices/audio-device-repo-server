@@ -25,16 +25,16 @@ namespace DeviceRepoAspNetCore.Controllers
 
             storage.Add(entireDeviceMessage);
             return CreatedAtAction(
-                nameof(GetByKey), 
+                nameof(GetByKey),
                 new { pnpId = entireDeviceMessage.PnpId, hostName = entireDeviceMessage.HostName },
                 entireDeviceMessage
-                );
+            );
         }
 
         [HttpGet("{pnpId}/{hostName}")]
         public IActionResult GetByKey(string pnpId, string hostName)
         {
-            foreach (var realHostNameOrCheckSummed in new []{ true, false })
+            foreach (var realHostNameOrCheckSummed in new[] { true, false })
             {
                 var device = storage.GetAll().FirstOrDefault(
                     d => d.PnpId == pnpId && d.HostName == hostName
@@ -87,10 +87,8 @@ namespace DeviceRepoAspNetCore.Controllers
             return NoContent();
         }
 
-
         [HttpGet("search")]
-        public IEnumerable<EntireDeviceMessage> Search(
-            [FromQuery] string query)
+        public IEnumerable<EntireDeviceMessage> Search([FromQuery] string query)
         {
             var hashedHost = cryptService.ComputeChecksum(query);
 

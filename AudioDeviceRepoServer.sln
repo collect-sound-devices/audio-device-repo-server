@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceController.SmokeHost"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerTests.Postman", "ServerTests.Postman\ServerTests.Postman.csproj", "{A3EFD618-BF8B-9273-7735-C6F3642EFBB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceControllerLib", "DeviceControllerLib\DeviceControllerLib.csproj", "{0CFD7CF6-E3C7-CE36-70F7-40F29F3B9F6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{0095321C-AC02-887F-2901-3C115667DBE4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3EFD618-BF8B-9273-7735-C6F3642EFBB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A3EFD618-BF8B-9273-7735-C6F3642EFBB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CFD7CF6-E3C7-CE36-70F7-40F29F3B9F6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CFD7CF6-E3C7-CE36-70F7-40F29F3B9F6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CFD7CF6-E3C7-CE36-70F7-40F29F3B9F6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CFD7CF6-E3C7-CE36-70F7-40F29F3B9F6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
