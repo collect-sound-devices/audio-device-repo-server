@@ -70,3 +70,4 @@ dist-ssr
 **/nohup.out
 **/*.csproj.user
 /DeviceRepoAspNetCore/Properties/PublishProfiles/sdrepo - Zip Deploy.pubxml.user
+*.sln.DotSettings.user
