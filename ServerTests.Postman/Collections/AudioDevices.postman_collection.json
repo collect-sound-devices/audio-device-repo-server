@@ -1,0 +1,86 @@
+{
+  "info": {
+    "name": "AudioDevices - Smoke Sequences",
+    "_postman_id": "b3c4e0b0-2a4e-4c2a-9e30-3d5b0a8f3d1d",
+    "description": "Minimal Postman collection to add and remove audio devices.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Sequence - Add + Remove",
+      "item": [
+        {
+          "name": "Add device",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/AudioDevices",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "AudioDevices"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pnpId\": \"{{pnpId}}\",\n  \"hostName\": \"{{hostName}}\",\n  \"name\": \"{{deviceName}}\",\n  \"operationSystemName\": \"{{osName}}\",\n  \"flowType\": {{flowType}},\n  \"renderVolume\": {{renderVolume}},\n  \"captureVolume\": {{captureVolume}},\n  \"updateDate\": \"{{$isoTimestamp}}\",\n  \"deviceMessageType\": {{deviceMessageType}}\n}"
+            },
+            "description": "Adds a device. Stores the returned hostName into collection variable 'storedHostName' (server may checksum it)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 201 Created', function () { pm.response.to.have.status(201); });",
+                  "var json = pm.response.json();",
+                  "pm.collectionVariables.set('storedHostName', json.hostName);",
+                  "pm.collectionVariables.set('storedPnpId', json.pnpId);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Remove device",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/AudioDevices/{{storedPnpId}}/{{storedHostName}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "AudioDevices",
+                "{{storedPnpId}}",
+                "{{storedHostName}}"
+              ]
+            },
+            "description": "Removes the device added in the previous request."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 204 No Content', function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

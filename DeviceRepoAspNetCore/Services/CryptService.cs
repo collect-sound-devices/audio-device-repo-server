@@ -4,10 +4,9 @@ using System.IO.Hashing;
 
 namespace DeviceRepoAspNetCore.Services;
 
-
-public class CryptService(ILogger<CryptService> logger)
+public class CryptService(ILogger<CryptService> logger) : ICryptService
 {
-    public static string ComputeChecksum(string str)
+    public string ComputeChecksum(string str)
     {
         var data = Encoding.UTF8.GetBytes(str);
         // Create a CRC32 instance
@@ -21,6 +20,7 @@ public class CryptService(ILogger<CryptService> logger)
 
         return Convert.ToHexString(hashBytes).PadLeft(8, '0').ToLower();
     }
+
     // ReSharper disable once UnusedMember.Global
     public string Encrypt(string plainText, string passphrase)
     {

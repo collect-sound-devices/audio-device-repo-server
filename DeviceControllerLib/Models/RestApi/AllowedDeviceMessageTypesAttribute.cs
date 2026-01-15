@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace DeviceRepoAspNetCore.Models.RestApi;
 
@@ -7,7 +7,6 @@ public class AllowedDeviceMessageTypesAttribute(params DeviceMessageType[] allow
 {
     protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
     {
-        // ReSharper disable once InvertIf
         if (value is DeviceMessageType msgType)
         {
             if (Array.IndexOf(allowedTypes, msgType) < 0)

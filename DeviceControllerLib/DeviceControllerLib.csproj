@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(CODESPACES)' == 'true' or '$(GITHUB_ACTIONS)' == 'true' or '$(WEBSITE_SITE_NAME)' != '' ">
+    <!--
+"...format=%%cI...", see Ed.Common.targets, works only under Windows locally.
+Correct it to %cI on GitHub Codespaces / Actions and Azure DevOps pipelines.
+See output below in target RestoreClientSideLibraries.
+-->
+    <LatestCommitTimestampScript><![CDATA[git log -1 --format=%cI]]></LatestCommitTimestampScript>
+
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <!-- Enable release-version debugging (optimization off, etc.) -->
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)..\msbuildLib\Ed.Common.props" />
+  <Import Project="$(MSBuildThisFileDirectory)..\msbuildLib\Ed.CSharp.targets" />
+
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+</Project>

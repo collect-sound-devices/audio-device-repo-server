@@ -1,4 +1,4 @@
-﻿using DeviceRepoAspNetCore.Models.RestApi;
+using DeviceRepoAspNetCore.Models.RestApi;
 
 namespace DeviceRepoAspNetCore.Services;
 

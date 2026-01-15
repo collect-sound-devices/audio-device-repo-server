@@ -8,7 +8,7 @@ namespace DeviceRepoAspNetCore.Controllers
     // and examples, please refer to the `rest-api-documentation.md` file located in the project root.
     [ApiController]
     [Route("api/[controller]")]
-    public class AudioDevicesController(IAudioDeviceStorage storage) : ControllerBase
+    public class AudioDevicesController(IAudioDeviceStorage storage, ICryptService cryptService) : ControllerBase
     {
         [HttpGet]
         public IEnumerable<EntireDeviceMessage> GetAll() => storage.GetAll();
@@ -21,20 +21,20 @@ namespace DeviceRepoAspNetCore.Controllers
                 return BadRequest(ModelState);
             }
 
-            entireDeviceMessage = entireDeviceMessage with { HostName = CryptService.ComputeChecksum(entireDeviceMessage.HostName) };
+            entireDeviceMessage = entireDeviceMessage with { HostName = cryptService.ComputeChecksum(entireDeviceMessage.HostName) };
 
             storage.Add(entireDeviceMessage);
             return CreatedAtAction(
-                nameof(GetByKey), 
+                nameof(GetByKey),
                 new { pnpId = entireDeviceMessage.PnpId, hostName = entireDeviceMessage.HostName },
                 entireDeviceMessage
-                );
+            );
         }
 
         [HttpGet("{pnpId}/{hostName}")]
         public IActionResult GetByKey(string pnpId, string hostName)
         {
-            foreach (var realHostNameOrCheckSummed in new []{ true, false })
+            foreach (var realHostNameOrCheckSummed in new[] { true, false })
             {
                 var device = storage.GetAll().FirstOrDefault(
                     d => d.PnpId == pnpId && d.HostName == hostName
@@ -49,7 +49,7 @@ namespace DeviceRepoAspNetCore.Controllers
                     break;
                 }
 
-                hostName = CryptService.ComputeChecksum(hostName);
+                hostName = cryptService.ComputeChecksum(hostName);
             }
             return NotFound();
         }
@@ -72,7 +72,7 @@ namespace DeviceRepoAspNetCore.Controllers
                     break;
                 }
 
-                hostName = CryptService.ComputeChecksum(hostName);
+                hostName = cryptService.ComputeChecksum(hostName);
             }
 
             return NotFound();
@@ -81,18 +81,16 @@ namespace DeviceRepoAspNetCore.Controllers
         [HttpPut("{pnpId}/{hostName}")]
         public IActionResult UpdateVolume(string pnpId, string hostName, [FromBody] VolumeChangeMessage volumeChangeMessage)
         {
-            hostName = CryptService.ComputeChecksum(hostName);
+            hostName = cryptService.ComputeChecksum(hostName);
 
             storage.UpdateVolume(pnpId, hostName, volumeChangeMessage);
             return NoContent();
         }
 
-
         [HttpGet("search")]
-        public IEnumerable<EntireDeviceMessage> Search(
-            [FromQuery] string query)
+        public IEnumerable<EntireDeviceMessage> Search([FromQuery] string query)
         {
-            var hashedHost = CryptService.ComputeChecksum(query);
+            var hashedHost = cryptService.ComputeChecksum(query);
 
             return storage.Search(query)
                 .Union(storage.Search(hashedHost));

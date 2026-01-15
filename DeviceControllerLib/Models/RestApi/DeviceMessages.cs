@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace DeviceRepoAspNetCore.Models.RestApi;
 
@@ -44,7 +44,7 @@ public record EntireDeviceMessage
 
     [Required]
     public required DateTime UpdateDate { get; init; }
-    
+
     [Required]
     [AllowedDeviceMessageTypes(DeviceMessageType.Confirmed, DeviceMessageType.Discovered)]
     public DeviceMessageType DeviceMessageType { get; init; }
