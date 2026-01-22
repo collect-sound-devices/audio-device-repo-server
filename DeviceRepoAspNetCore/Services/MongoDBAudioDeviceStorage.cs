@@ -8,10 +8,10 @@ namespace DeviceRepoAspNetCore.Services;
 
 public class MongoDbAudioDeviceStorage : IAudioDeviceStorage
 {
-    private readonly ILogger<CryptService> _logger;
+    private readonly ILogger<MongoDbAudioDeviceStorage> _logger;
     private readonly IMongoCollection<AudioDeviceDocument> _devicesCollection;
 
-    public MongoDbAudioDeviceStorage(IOptions<MongoDbSettings> mongoDbSettings, ICryptService cryptService, ILogger<CryptService> logger)
+    public MongoDbAudioDeviceStorage(IOptions<MongoDbSettings> mongoDbSettings, ICryptService cryptService, ILogger<MongoDbAudioDeviceStorage> logger)
     {
         _logger = logger;
         const string shortestPassword = "my.shortest.password";
