@@ -1,5 +1,5 @@
-using DeviceRepoAspNetCore.Controllers;
-using DeviceRepoAspNetCore.Services;
+using DeviceControllerLib.Controllers;
+using DeviceControllerLib.Services;
 using DeviveController.SmokeHost;
 
 var builder = WebApplication.CreateBuilder(args);

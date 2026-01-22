@@ -1,8 +1,8 @@
-using DeviceRepoAspNetCore.Models.RestApi;
-using DeviceRepoAspNetCore.Services;
+using DeviceControllerLib.Models.RestApi;
+using DeviceControllerLib.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DeviceRepoAspNetCore.Controllers
+namespace DeviceControllerLib.Controllers
 {
     // For detailed API documentation, including endpoint descriptions, request/response formats, 
     // and examples, please refer to the `rest-api-documentation.md` file located in the project root.

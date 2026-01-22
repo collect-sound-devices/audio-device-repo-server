@@ -1,6 +1,6 @@
-using DeviceRepoAspNetCore.Controllers;
-using DeviceRepoAspNetCore.Models.RestApi;
-using DeviceRepoAspNetCore.Services;
+using DeviceControllerLib.Controllers;
+using DeviceControllerLib.Models.RestApi;
+using DeviceControllerLib.Services;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;

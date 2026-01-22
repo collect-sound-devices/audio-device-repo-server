@@ -1,6 +1,6 @@
-using DeviceRepoAspNetCore.Models.RestApi;
+using DeviceControllerLib.Models.RestApi;
 
-namespace DeviceRepoAspNetCore.Services;
+namespace DeviceControllerLib.Services;
 
 public interface IAudioDeviceStorage
 {

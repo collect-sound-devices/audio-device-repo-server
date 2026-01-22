@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DeviceRepoAspNetCore.Models.RestApi;
+namespace DeviceControllerLib.Models.RestApi;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class AllowedDeviceMessageTypesAttribute(params DeviceMessageType[] allowedTypes) : ValidationAttribute

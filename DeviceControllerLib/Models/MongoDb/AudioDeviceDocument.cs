@@ -1,7 +1,7 @@
-﻿using DeviceRepoAspNetCore.Models.RestApi;
+using DeviceControllerLib.Models.RestApi;
 using MongoDB.Bson;
 
-namespace DeviceRepoAspNetCore.Models.MongoDb;
+namespace DeviceControllerLib.Models.MongoDb;
 
 public class AudioDeviceDocument
 {

@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
-using DeviceRepoAspNetCore.Models.RestApi;
-using DeviceRepoAspNetCore.Services;
+using DeviceControllerLib.Models.RestApi;
+using DeviceControllerLib.Services;
 
 namespace DeviveController.SmokeHost;
 

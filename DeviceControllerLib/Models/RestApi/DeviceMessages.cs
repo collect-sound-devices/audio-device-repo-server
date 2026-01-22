@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DeviceRepoAspNetCore.Models.RestApi;
+namespace DeviceControllerLib.Models.RestApi;
 
 public enum DeviceFlowType
 {

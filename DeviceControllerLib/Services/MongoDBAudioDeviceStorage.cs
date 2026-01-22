@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+using DeviceControllerLib.Models.MongoDb;
+using DeviceControllerLib.Models.RestApi;
+using DeviceControllerLib.Settings;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using DeviceRepoAspNetCore.Models.RestApi;
-using DeviceRepoAspNetCore.Settings;
-using DeviceRepoAspNetCore.Models.MongoDb;
 
-namespace DeviceRepoAspNetCore.Services;
+namespace DeviceControllerLib.Services;
 
 public class MongoDbAudioDeviceStorage : IAudioDeviceStorage
 {
@@ -26,7 +27,6 @@ public class MongoDbAudioDeviceStorage : IAudioDeviceStorage
         var database = client.GetDatabase(mongoDbSettings.Value.DatabaseName);
         _devicesCollection = database.GetCollection<AudioDeviceDocument>("devices");
 
-        // Create compound index for PnpId and HostName
         var indexKeysDefinition = Builders<AudioDeviceDocument>.IndexKeys
             .Ascending(d => d.PnpId)
             .Ascending(d => d.HostName);
@@ -51,10 +51,10 @@ public class MongoDbAudioDeviceStorage : IAudioDeviceStorage
             _logger.LogWarning("Device already exists, updating instead of adding");
         }
 
-        var eventDetails = 
-        existingDevice == null 
-            ? "Device creation"
-            : "Device entire update";
+        var eventDetails =
+            existingDevice == null
+                ? "Device creation"
+                : "Device entire update";
 
         var filter = Builders<AudioDeviceDocument>.Filter.And(
             Builders<AudioDeviceDocument>.Filter.Eq(d => d.PnpId, entireDeviceMessage.PnpId),
@@ -133,7 +133,6 @@ public class MongoDbAudioDeviceStorage : IAudioDeviceStorage
     {
         var loweredQuery = query.ToLowerInvariant();
         return _devicesCollection.AsQueryable()
-// MongoDB’s LINQ provider does not support StringComparison.OrdinalIgnoreCase in .Contains() or similar string methods.
 #pragma warning disable CA1862
             .Where(d => d.PnpId.ToLower().Contains(loweredQuery)
                         || d.Name.ToLower().Contains(loweredQuery)
