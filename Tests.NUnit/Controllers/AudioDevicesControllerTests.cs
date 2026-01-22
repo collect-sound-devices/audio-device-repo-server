@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace Tests.NUnit.Controllers;
 
 [TestFixture]
-public class AudioDevicesControllerTests
+public class AudioDevicesControllerWithMockedDependenciesTests
 {
     private static EntireDeviceMessage CreateValidDevice(string pnpId = "pnp-1", string hostName = "HOST", string name = "Device")
         => new()
