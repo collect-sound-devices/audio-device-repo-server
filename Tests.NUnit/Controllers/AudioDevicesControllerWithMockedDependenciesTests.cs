@@ -16,7 +16,7 @@ public class AudioDevicesControllerWithMockedDependenciesTests
     {
         const string hostName = "MyPc";
         const string hashedHostName = "7d1a6195";
-        var device = DeviceMessages.CreateValidDevice(hostName: hostName);
+        var device = DeviceMessages.GenerateValidDeviceMessage(hostName: hostName);
         var expectedPnpId = device.PnpId;
 
         var storage = new Mock<IAudioDeviceStorage>(MockBehavior.Strict);

@@ -44,7 +44,7 @@ public class AudioDevicesControllerWithMongoDbTests
 
         var allLengthBeforeAdd = storage.GetAll().ToArray().Length;
 
-        var device = DeviceMessages.CreateValidDevice(hostName: "MyPc");
+        var device = DeviceMessages.GenerateValidDeviceMessage(hostName: "MyPc");
         var result = controller.Add(device);
 
         Assert.That(result, Is.InstanceOf<CreatedAtActionResult>());
@@ -62,5 +62,21 @@ public class AudioDevicesControllerWithMongoDbTests
         Assert.That(result, Is.InstanceOf<NoContentResult>());
         Assert.That(storage.GetAll().ToArray().Length, Is.EqualTo(allLengthBeforeAdd));
 
+    }
+
+    [Test]
+    public void Add_ThreeDevices()
+    {
+        var storage = CreateStorage();
+        var controller = new AudioDevicesController(storage, new FakeCryptService());
+
+        var before = storage.GetAll().Count();
+
+        for (var i = 0; i < 3; i++)
+        {
+            controller.Add(DeviceMessages.GenerateValidDeviceMessage(hostName: "HOST-FOR-TEST-3", deviceName: $"DEVICE{i}-FOR-TEST3"));
+        }
+
+        Assert.That(storage.GetAll().Count(), Is.EqualTo(before + 3));
     }
 }
