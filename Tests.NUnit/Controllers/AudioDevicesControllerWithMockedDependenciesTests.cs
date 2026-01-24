@@ -4,33 +4,19 @@ using DeviceControllerLib.Services;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
+using Tests.NUnit.TestData;
 
 namespace Tests.NUnit.Controllers;
 
 [TestFixture]
 public class AudioDevicesControllerWithMockedDependenciesTests
 {
-    private static EntireDeviceMessage CreateValidDevice(string pnpId = "pnp-1", string hostName = "HOST", string name = "Device")
-        => new()
-        {
-            PnpId = pnpId,
-            HostName = hostName,
-            Name = name,
-            OperationSystemName = "Windows",
-            FlowType = DeviceFlowType.Render,
-            RenderVolume = 100,
-            CaptureVolume = 200,
-            UpdateDate = DateTime.UtcNow,
-            DeviceMessageType = DeviceMessageType.Confirmed
-        };
-
-
     [Test]
     public void Add_WhenValid_AddsDeviceWithHashedHostName_AndReturnsCreatedAtAction()
     {
         const string hostName = "MyPc";
         const string hashedHostName = "7d1a6195";
-        var device = CreateValidDevice(hostName: hostName);
+        var device = DeviceMessages.CreateValidDevice(hostName: hostName);
         var expectedPnpId = device.PnpId;
 
         var storage = new Mock<IAudioDeviceStorage>(MockBehavior.Strict);

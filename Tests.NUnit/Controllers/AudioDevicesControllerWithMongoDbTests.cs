@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
+using Tests.NUnit.TestData;
 
 namespace Tests.NUnit.Controllers;
 
 [TestFixture]
 [Category("MongoDB")]
-public class AudioDevicesControllerWithMongorDbTests
+public class AudioDevicesControllerWithMongoDbTests
 {
     private sealed class FakeCryptService : ICryptService
     {
@@ -19,21 +20,6 @@ public class AudioDevicesControllerWithMongorDbTests
 
         public string ComputeChecksum(string str) => "7d1a6195";
     }
-
-    private static EntireDeviceMessage CreateValidDevice(string pnpId = "pnp-3", string hostName = "HOST03",
-        string name = "Device")
-        => new()
-        {
-            PnpId = pnpId,
-            HostName = hostName,
-            Name = name,
-            OperationSystemName = "Windows",
-            FlowType = DeviceFlowType.Render,
-            RenderVolume = 100,
-            CaptureVolume = 200,
-            UpdateDate = DateTime.UtcNow,
-            DeviceMessageType = DeviceMessageType.Confirmed
-        };
 
     private static MongoDbAudioDeviceStorage CreateStorage()
     {
@@ -58,7 +44,7 @@ public class AudioDevicesControllerWithMongorDbTests
 
         var allLengthBeforeAdd = storage.GetAll().ToArray().Length;
 
-        var device = CreateValidDevice(hostName: "MyPc");
+        var device = DeviceMessages.CreateValidDevice(hostName: "MyPc");
         var result = controller.Add(device);
 
         Assert.That(result, Is.InstanceOf<CreatedAtActionResult>());
