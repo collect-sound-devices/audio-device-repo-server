@@ -38,11 +38,12 @@ See output below in target RestoreClientSideLibraries.
     <ItemGroup>
       <Folder Include="Properties\PublishProfiles\" />
       <Folder Include="Properties\ServiceDependencies\" />
+      <Folder Include="Settings\" />
     </ItemGroup>
 
     <Target Name="RestoreClientSideLibraries" BeforeTargets="Build">
         <Exec Command="libman restore" />
-        <Message Importance="high" text="Environment: CODESPACES=>'$(CODESPACES)', GITHUB_ACTIONS=>'$(GITHUB_ACTIONS)', WEBSITE_SITE_NAME=>'$(WEBSITE_SITE_NAME)', RUNNER_OS=>'$(RUNNER_OS)'." />
+        <Message Importance="high" text="Environment: CODESPACES=&gt;'$(CODESPACES)', GITHUB_ACTIONS=&gt;'$(GITHUB_ACTIONS)', WEBSITE_SITE_NAME=&gt;'$(WEBSITE_SITE_NAME)', RUNNER_OS=&gt;'$(RUNNER_OS)'." />
 
     </Target>
 

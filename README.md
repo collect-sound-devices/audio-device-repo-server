@@ -32,3 +32,13 @@ dotnet run --launch-profile http
 
 - Specification (via custom validation attribute): `Models\RestApi\AllowedDeviceMessageTypesAttribute`
     constrains allowed `DeviceMessageType` values on models.
+
+## License
+
+This project is licensed under the terms of the [MIT License](LICENSE).
+
+## Contact
+
+Eduard Danziger
+
+Email: [edanziger@gmx.de](mailto:edanziger@gmx.de)

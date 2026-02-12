@@ -1,7 +1,7 @@
-﻿using DeviceRepoAspNetCore.Models.RestApi;
+using DeviceControllerLib.Models.RestApi;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace DeviceRepoAspNetCore.Models.MongoDb;
+namespace DeviceControllerLib.Models.MongoDb;
 
 [BsonDiscriminator(RootClass = true)]
 [BsonKnownTypes(typeof(DeviceChangeEvent), typeof(VolumeChangeEvent))]

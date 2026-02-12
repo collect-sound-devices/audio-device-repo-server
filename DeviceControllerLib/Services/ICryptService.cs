@@ -1,4 +1,4 @@
-namespace DeviceRepoAspNetCore.Services;
+namespace DeviceControllerLib.Services;
 
 public interface ICryptService
 {

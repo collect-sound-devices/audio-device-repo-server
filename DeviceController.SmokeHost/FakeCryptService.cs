@@ -1,4 +1,4 @@
-using DeviceRepoAspNetCore.Services;
+using DeviceControllerLib.Services;
 
 namespace DeviveController.SmokeHost;
 

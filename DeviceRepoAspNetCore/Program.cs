@@ -1,6 +1,7 @@
+using DeviceControllerLib.Services;
+using DeviceControllerLib.Settings;
 using DeviceRepoAspNetCore.Middleware;
 using DeviceRepoAspNetCore.Services;
-using DeviceRepoAspNetCore.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 

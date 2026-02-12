@@ -1,7 +1,7 @@
-﻿namespace DeviceRepoAspNetCore.Settings;
+namespace DeviceControllerLib.Settings;
 
 public class MongoDbSettings
-{   // read out of configuration (appsettings.json)
+{   // can be read out of configuration (appsettings.json)
     public required string ConnectionStringAnonymous { get; init; }
     public required string DatabaseName { get; init; }
     public required string DatabaseUser { get; init; }
