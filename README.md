@@ -30,7 +30,7 @@ subgraph requestQueueMicroservice["<br>"]
 end
 class requestQueueMicroservice dottedBox
 
-subgraph repoServer["<b>audio-device-repo-server</b>"]
+subgraph repoServer["<br>"]
   invisible1["<br><br><br>"]
   class invisible1 invisibleNode
   deviceRepositoryApi["Device Repository Server<br>(REST API)"]
