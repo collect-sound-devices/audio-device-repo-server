@@ -66,8 +66,7 @@ jobs:
             # Increment the third number
             VERSION_NUMBER=$(echo "$VERSION_NUMBER" | awk -F. -v OFS=. '{$3++; print}')
             # Add RC info
-            DISTANCE=$(printf "%03d" "$DISTANCE")
-            VERSION="$VERSION_NUMBER-RC$DISTANCE"
+            VERSION="$VERSION_NUMBER-rc.$DISTANCE"
           else
             VERSION="$VERSION_NUMBER"
           fi
@@ -81,7 +80,6 @@ jobs:
           # Set variables
           VERSION=${{ steps.get_version.outputs.VERSION }}
           DATE=$(TZ=Europe/Berlin date +"%d.%m.%Y %H:%M:%S%z")
-
           perl -pe "s/\\\$date\\\$/$DATE/g; s/\\\$version\\\$/$VERSION/g" \
               AudioDeviceRepoServer-Release-Notes.md > artifacts/AudioDeviceRepoServer-Release-Notes.md
 
