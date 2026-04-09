@@ -21,6 +21,7 @@ builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
 builder.Services.AddSingleton<IChecksumService, ChecksumService>();
 builder.Services.AddSingleton<IAudioDeviceStorage, MongoDbAudioDeviceStorage>();
+builder.Services.AddHostedService<MongoDbInitializationService>();
 builder.Services.AddSingleton(new VersionProvider(VersionProvider.ReadVersionFromAssembly(), VersionProvider.GetRuntimeDescription()));
 
 builder.Services.AddRazorPages();

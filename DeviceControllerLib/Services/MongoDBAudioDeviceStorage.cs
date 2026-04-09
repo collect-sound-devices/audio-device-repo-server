@@ -12,26 +12,23 @@ public class MongoDbAudioDeviceStorage : IAudioDeviceStorage
     private readonly ILogger<MongoDbAudioDeviceStorage> _logger;
     private readonly IMongoCollection<AudioDeviceDocument> _devicesCollection;
 
-    public MongoDbAudioDeviceStorage(IOptions<MongoDbSettings> mongoDbSettings, IChecksumService checksumService, ILogger<MongoDbAudioDeviceStorage> logger)
+    public MongoDbAudioDeviceStorage(IOptions<MongoDbSettings> mongoDbSettings, ILogger<MongoDbAudioDeviceStorage> logger)
     {
         _logger = logger;
-        const string urlPrefix = "mongodb+srv://";
 
-        var decryptedUser = mongoDbSettings.Value.DatabaseUser;
-        var decryptedPassword = mongoDbSettings.Value.DatabasePassword;
-        var connectionString = mongoDbSettings.Value.ConnectionStringAnonymous
-            .Replace(urlPrefix, $"{urlPrefix}{decryptedUser}:{decryptedPassword}@");
+        var userName = mongoDbSettings.Value.DatabaseUser;
+        var password = mongoDbSettings.Value.DatabasePassword;
 
-        var client = new MongoClient(connectionString);
+        var mongoUrl = new MongoUrlBuilder(mongoDbSettings.Value.ConnectionStringAnonymous)
+        {
+            Username = userName,
+            Password = password
+        }.ToMongoUrl();
+
+
+        var client = new MongoClient(mongoUrl);
         var database = client.GetDatabase(mongoDbSettings.Value.DatabaseName);
         _devicesCollection = database.GetCollection<AudioDeviceDocument>("devices");
-
-        var indexKeysDefinition = Builders<AudioDeviceDocument>.IndexKeys
-            .Ascending(d => d.PnpId)
-            .Ascending(d => d.HostName);
-        var indexOptions = new CreateIndexOptions { Unique = true };
-        var indexModel = new CreateIndexModel<AudioDeviceDocument>(indexKeysDefinition, indexOptions);
-        _devicesCollection.Indexes.CreateOne(indexModel);
     }
 
     public IEnumerable<EntireDeviceMessage> GetAll()
