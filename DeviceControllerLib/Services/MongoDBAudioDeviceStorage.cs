@@ -12,15 +12,15 @@ public class MongoDbAudioDeviceStorage : IAudioDeviceStorage
     private readonly ILogger<MongoDbAudioDeviceStorage> _logger;
     private readonly IMongoCollection<AudioDeviceDocument> _devicesCollection;
 
-    public MongoDbAudioDeviceStorage(IOptions<MongoDbSettings> mongoDbSettings, IChecksumService checksumService, ILogger<MongoDbAudioDeviceStorage> logger)
+    public MongoDbAudioDeviceStorage(IOptions<MongoDbSettings> mongoDbSettings, ILogger<MongoDbAudioDeviceStorage> logger)
     {
         _logger = logger;
         const string urlPrefix = "mongodb+srv://";
 
-        var decryptedUser = mongoDbSettings.Value.DatabaseUser;
-        var decryptedPassword = mongoDbSettings.Value.DatabasePassword;
+        var userName = mongoDbSettings.Value.DatabaseUser;
+        var password = mongoDbSettings.Value.DatabasePassword;
         var connectionString = mongoDbSettings.Value.ConnectionStringAnonymous
-            .Replace(urlPrefix, $"{urlPrefix}{decryptedUser}:{decryptedPassword}@");
+            .Replace(urlPrefix, $"{urlPrefix}{userName}:{password}@");
 
         var client = new MongoClient(connectionString);
         var database = client.GetDatabase(mongoDbSettings.Value.DatabaseName);
