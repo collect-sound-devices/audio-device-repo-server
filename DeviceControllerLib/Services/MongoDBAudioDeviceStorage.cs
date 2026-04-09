@@ -15,7 +15,6 @@ public class MongoDbAudioDeviceStorage : IAudioDeviceStorage
     public MongoDbAudioDeviceStorage(IOptions<MongoDbSettings> mongoDbSettings, ILogger<MongoDbAudioDeviceStorage> logger)
     {
         _logger = logger;
-        const string urlPrefix = "mongodb+srv://";
 
         var userName = mongoDbSettings.Value.DatabaseUser;
         var password = mongoDbSettings.Value.DatabasePassword;
@@ -30,13 +29,6 @@ public class MongoDbAudioDeviceStorage : IAudioDeviceStorage
         var client = new MongoClient(mongoUrl);
         var database = client.GetDatabase(mongoDbSettings.Value.DatabaseName);
         _devicesCollection = database.GetCollection<AudioDeviceDocument>("devices");
-
-        var indexKeysDefinition = Builders<AudioDeviceDocument>.IndexKeys
-            .Ascending(d => d.PnpId)
-            .Ascending(d => d.HostName);
-        var indexOptions = new CreateIndexOptions { Unique = true };
-        var indexModel = new CreateIndexModel<AudioDeviceDocument>(indexKeysDefinition, indexOptions);
-        _devicesCollection.Indexes.CreateOne(indexModel);
     }
 
     public IEnumerable<EntireDeviceMessage> GetAll()
