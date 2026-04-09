@@ -19,10 +19,15 @@ public class MongoDbAudioDeviceStorage : IAudioDeviceStorage
 
         var userName = mongoDbSettings.Value.DatabaseUser;
         var password = mongoDbSettings.Value.DatabasePassword;
-        var connectionString = mongoDbSettings.Value.ConnectionStringAnonymous
-            .Replace(urlPrefix, $"{urlPrefix}{userName}:{password}@");
 
-        var client = new MongoClient(connectionString);
+        var mongoUrl = new MongoUrlBuilder(mongoDbSettings.Value.ConnectionStringAnonymous)
+        {
+            Username = userName,
+            Password = password
+        }.ToMongoUrl();
+
+
+        var client = new MongoClient(mongoUrl);
         var database = client.GetDatabase(mongoDbSettings.Value.DatabaseName);
         _devicesCollection = database.GetCollection<AudioDeviceDocument>("devices");
 
