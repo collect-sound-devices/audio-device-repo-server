@@ -8,7 +8,7 @@ namespace DeviceControllerLib.Controllers
     // and examples, please refer to the `rest-api-documentation.md` file located in the project root.
     [ApiController]
     [Route("api/[controller]")]
-    public class AudioDevicesController(IAudioDeviceStorage storage, ICryptService cryptService) : ControllerBase
+    public class AudioDevicesController(IAudioDeviceStorage storage, IChecksumService checksumService) : ControllerBase
     {
         [HttpGet]
         public IEnumerable<EntireDeviceMessage> GetAll() => storage.GetAll();
@@ -21,7 +21,7 @@ namespace DeviceControllerLib.Controllers
                 return BadRequest(ModelState);
             }
 
-            entireDeviceMessage = entireDeviceMessage with { HostName = cryptService.ComputeChecksum(entireDeviceMessage.HostName) };
+            entireDeviceMessage = entireDeviceMessage with { HostName = checksumService.ComputeChecksum(entireDeviceMessage.HostName) };
 
             storage.Add(entireDeviceMessage);
             return CreatedAtAction(
@@ -49,7 +49,7 @@ namespace DeviceControllerLib.Controllers
                     break;
                 }
 
-                hostName = cryptService.ComputeChecksum(hostName);
+                hostName = checksumService.ComputeChecksum(hostName);
             }
             return NotFound();
         }
@@ -72,7 +72,7 @@ namespace DeviceControllerLib.Controllers
                     break;
                 }
 
-                hostName = cryptService.ComputeChecksum(hostName);
+                hostName = checksumService.ComputeChecksum(hostName);
             }
 
             return NotFound();
@@ -81,7 +81,7 @@ namespace DeviceControllerLib.Controllers
         [HttpPut("{pnpId}/{hostName}")]
         public IActionResult UpdateVolume(string pnpId, string hostName, [FromBody] VolumeChangeMessage volumeChangeMessage)
         {
-            hostName = cryptService.ComputeChecksum(hostName);
+            hostName = checksumService.ComputeChecksum(hostName);
 
             storage.UpdateVolume(pnpId, hostName, volumeChangeMessage);
             return NoContent();
@@ -90,7 +90,7 @@ namespace DeviceControllerLib.Controllers
         [HttpGet("search")]
         public IEnumerable<EntireDeviceMessage> Search([FromQuery] string query)
         {
-            var hashedHost = cryptService.ComputeChecksum(query);
+            var hashedHost = checksumService.ComputeChecksum(query);
 
             return storage.Search(query)
                 .Union(storage.Search(hashedHost));

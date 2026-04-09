@@ -86,6 +86,17 @@ dotnet build
 
 ### Run and Debug
 
+#### Database and Environment Variables:
+
+The MongoDB setting should to be overridden via environment variables, as the default `appsettings.json`
+are specific to the developer defaults:
+- `ConnectionStringAnonymous` (override it via `MongoDbSettings__ConnectionStringAnonymous`) is used to connect to MongoDB instance (not necessarily without credentials)
+- `DatabaseName` (override it via `MongoDbSettings__DatabaseName`) is the name of the database to use in MongoDB.
+- `MongoDbSettings__DatabaseUser` and `MongoDbSettings__DatabasePassword` environment variables
+must be set to override MongoDB credentials from `appsettings.json`.
+
+#### How to run:
+
 ```powershell
 cd DeviceRepoAspNetCore
 dotnet run --launch-profile http
@@ -93,6 +104,7 @@ dotnet run --launch-profile http
 
 - HTTP profile uses `http://localhost:5027`.
 - Set breakpoints and start `DeviceRepoAspNetCore` in your IDE (Rider or Visual Studio).
+
 
 ### Tests
 

@@ -1,10 +1,11 @@
+using DeviceController.SmokeHost;
 using DeviceControllerLib.Controllers;
 using DeviceControllerLib.Services;
 using DeviveController.SmokeHost;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddSingleton<ICryptService, FakeCryptService>();
+builder.Services.AddSingleton<IChecksumService, FakeChecksumService>();
 builder.Services.AddSingleton<IAudioDeviceStorage, InMemoryAudioDeviceStorage>();
 
 builder.Services

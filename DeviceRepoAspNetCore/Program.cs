@@ -19,7 +19,7 @@ builder.Logging.AddDebug();
 // Add services to the container.
 builder.Services.Configure<MongoDbSettings>(
     builder.Configuration.GetSection("MongoDbSettings"));
-builder.Services.AddSingleton<ICryptService, CryptService>();
+builder.Services.AddSingleton<IChecksumService, ChecksumService>();
 builder.Services.AddSingleton<IAudioDeviceStorage, MongoDbAudioDeviceStorage>();
 builder.Services.AddSingleton(new VersionProvider(VersionProvider.ReadVersionFromAssembly(), VersionProvider.GetRuntimeDescription()));
 

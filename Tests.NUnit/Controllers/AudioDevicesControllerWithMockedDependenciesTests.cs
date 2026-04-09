@@ -24,7 +24,7 @@ public class AudioDevicesControllerWithMockedDependenciesTests
             .Setup(s => s.Add(It.Is<EntireDeviceMessage>(d =>
                 d.PnpId == expectedPnpId && d.HostName == hashedHostName)));
 
-        var cryptService = new Mock<ICryptService>(MockBehavior.Strict);
+        var cryptService = new Mock<IChecksumService>(MockBehavior.Strict);
         cryptService.Setup(c => c.ComputeChecksum(device.HostName)).Returns(hashedHostName);
 
         var controller = new AudioDevicesController(storage.Object, cryptService.Object);
@@ -47,7 +47,7 @@ public class AudioDevicesControllerWithMockedDependenciesTests
         var storage = new Mock<IAudioDeviceStorage>(MockBehavior.Strict);
         storage.Setup(s => s.GetAll()).Returns([]);
 
-        var cryptService = new Mock<ICryptService>(MockBehavior.Strict);
+        var cryptService = new Mock<IChecksumService>(MockBehavior.Strict);
         cryptService.Setup(c => c.ComputeChecksum(It.IsAny<string>())).Returns("checksum");
 
         var controller = new AudioDevicesController(storage.Object, cryptService.Object);
