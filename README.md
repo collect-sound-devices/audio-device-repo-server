@@ -94,6 +94,7 @@ are specific to the developer defaults:
 - `DatabaseName` (override it via `MongoDbSettings__DatabaseName`) is the name of the database to use in MongoDB.
 - `MongoDbSettings__DatabaseUser` and `MongoDbSettings__DatabasePassword` environment variables
 must be set to override MongoDB credentials from `appsettings.json`.
+- `MaxConnectRetries` (override it via `MongoDbSettings__MaxConnectRetries`) defines how often MongoDB startup connection retries are attempted. The default in `appsettings.json` is `5`.
 
 #### How to run:
 

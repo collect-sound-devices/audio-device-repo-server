@@ -33,7 +33,7 @@ public class MongoDbInitializationService(
         var indexOptions = new CreateIndexOptions { Unique = true };
         var indexModel = new CreateIndexModel<AudioDeviceDocument>(indexKeysDefinition, indexOptions);
 
-        const int maxRetries = 5;
+        var maxRetries = mongoDbSettings.Value.MaxConnectRetries;
         for (var attempt = 0; ; attempt++)
         {
             try
