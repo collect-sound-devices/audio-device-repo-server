@@ -68,6 +68,20 @@ rabbitMqRestForwarder -->|POST/PUT requests| deviceRepositoryApi
 - Postman collection for API checks.
 - LibMan for client-side web assets.
 
+## Used design patterns (excluding framework-provided ones)
+
+- Repository: `Services\IAudioDeviceStorage` and `Services\MongoDbAudioDeviceStorage` abstract and
+  encapsulate MongoDB persistence behind an interface.
+
+- DTO (data transfer object): `Models\RestApi\EntireDeviceMessage` and `Models\RestApi\VolumeChangeMessage`
+  defineAPI payloads separate from persistence models.
+
+- Adapter/Mapper: `Models\MongoDb\AudioDeviceDocument.ToDeviceMessage()`
+  converts MongoDB documents to REST DTOs.
+
+- Specification (via custom validation attribute): `Models\RestApi\AllowedDeviceMessageTypesAttribute`
+  constrains allowed `DeviceMessageType` values on models.
+
 ## Build and Debug
 
 ### Prerequisites
@@ -94,6 +108,7 @@ are specific to the developer defaults:
 - `DatabaseName` (override it via `MongoDbSettings__DatabaseName`) is the name of the database to use in MongoDB.
 - `MongoDbSettings__DatabaseUser` and `MongoDbSettings__DatabasePassword` environment variables
 must be set to override MongoDB credentials from `appsettings.json`.
+- `MaxConnectRetries` (override it via `MongoDbSettings__MaxConnectRetries`) defines how often MongoDB startup connection retries are attempted. The default in `appsettings.json` is `5`.
 
 #### How to run:
 
@@ -118,22 +133,28 @@ Optional smoke host:
 dotnet run --project .\DeviceController.SmokeHost\DeviceController.SmokeHost.csproj --launch-profile http
 ```
 
-## Used design patterns (excluding framework-provided ones)
+### Run as Docker Container
 
-- Repository: `Services\IAudioDeviceStorage` and `Services\MongoDbAudioDeviceStorage` abstract and
-  encapsulate MongoDB persistence behind an interface.
+Build from the repository root. The container serves HTTP on port `8080`.
 
-- DTO (data transfer object): `Models\RestApi\EntireDeviceMessage` and `Models\RestApi\VolumeChangeMessage`
-  defineAPI payloads separate from persistence models.
+```powershell
+docker build -t audio-device-repo-server .
+docker run --rm `
+  --name audio-device-repo-server `
+  -p 5027:8080 `
+  -e MongoDbSettings__DatabaseUser="your-user" `
+  -e MongoDbSettings__DatabasePassword="your-password" `
+  audio-device-repo-server
+```
 
-- Adapter/Mapper: `Models\MongoDb\AudioDeviceDocument.ToDeviceMessage()`
-  converts MongoDB documents to REST DTOs.
+You can test if the container is running and serving the API by displaying the server's Razor page:
+http://localhost:5027/
 
-- Specification (via custom validation attribute): `Models\RestApi\AllowedDeviceMessageTypesAttribute`
-  constrains allowed `DeviceMessageType` values on models.
 
 ## Changelog
 
+- 2026-04-10 Added `Dockerfile` for containerized server runs.
+- 2026-04-09 Added environment variable usage for MongoDB settings.
 - 2026-02-12 Updated `LICENSE` and `README` metadata.
 - 2026-01-28 Updated launch settings to localhost URLs.
 - 2026-01-23 Added controller tests against a real MongoDB backend.

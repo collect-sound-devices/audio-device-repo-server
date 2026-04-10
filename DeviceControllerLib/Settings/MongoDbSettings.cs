@@ -6,4 +6,5 @@ public class MongoDbSettings
     public required string DatabaseName { get; init; }
     public required string DatabaseUser { get; init; }
     public required string DatabasePassword { get; init; }
+    public int MaxConnectRetries { get; init; }
 }
