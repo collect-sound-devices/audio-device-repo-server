@@ -12,7 +12,7 @@ public class MongoDbInitializationService(
     ILogger<MongoDbInitializationService> logger)
     : IHostedService
 {
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
         var userName = mongoDbSettings.Value.DatabaseUser;
         var password = mongoDbSettings.Value.DatabasePassword;
@@ -33,7 +33,28 @@ public class MongoDbInitializationService(
         var indexOptions = new CreateIndexOptions { Unique = true };
         var indexModel = new CreateIndexModel<AudioDeviceDocument>(indexKeysDefinition, indexOptions);
 
-        return devicesCollection.Indexes.CreateOneAsync(indexModel, cancellationToken: cancellationToken);
+        const int maxRetries = 5;
+        for (var attempt = 0; ; attempt++)
+        {
+            try
+            {
+                await devicesCollection.Indexes.CreateOneAsync(indexModel, cancellationToken: cancellationToken);
+                return;
+            }
+            catch (MongoConnectionException ex) when (ex is not MongoAuthenticationException && attempt < maxRetries)
+            {
+                var delay = TimeSpan.FromSeconds(Math.Pow(2, attempt)); // 1s, 2s, 4s, 8s, 16s
+                logger.LogWarning(
+                    "MongoDB connection failed (attempt {Attempt}/{MaxRetries}). Retrying in {Delay}s...",
+                    attempt + 1, maxRetries, delay.TotalSeconds);
+                await Task.Delay(delay, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Failed to initialize MongoDB.");
+                throw;
+            }
+        }
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
