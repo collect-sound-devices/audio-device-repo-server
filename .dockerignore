@@ -1,0 +1,10 @@
+﻿**/bin/
+**/obj/
+.vs/
+.idea/
+.devcontainer/
+Tests.NUnit/
+ServerTests.Postman/
+DeviceController.SmokeHost/
+artifacts/
+

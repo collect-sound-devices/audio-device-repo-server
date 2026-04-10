@@ -38,7 +38,9 @@ public class MongoDbInitializationService(
         {
             try
             {
+                logger.LogInformation("Database (re-)initialization started.");
                 await devicesCollection.Indexes.CreateOneAsync(indexModel, cancellationToken: cancellationToken);
+                logger.LogInformation("Database (re-)initialization completed successfully.");
                 return;
             }
             catch (MongoConnectionException ex) when (ex is not MongoAuthenticationException && attempt < maxRetries)
@@ -59,7 +61,6 @@ public class MongoDbInitializationService(
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        logger.LogInformation("MongoDB initialization service stopped.");
         return Task.CompletedTask;
     }
 }
